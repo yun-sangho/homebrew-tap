@@ -1,8 +1,8 @@
 class Lidwatch < Formula
   desc "Event-driven display sleep on lid close, even when sleep is blocked"
   homepage "https://github.com/yun-sangho/lidwatch"
-  url "https://github.com/yun-sangho/lidwatch/archive/refs/tags/v0.1.0.tar.gz"
-  sha256 "93711e3b16c5907be0275573fe646a4ed267846a2634d8934192b06f7b7e141f"
+  url "https://github.com/yun-sangho/lidwatch/archive/refs/tags/v0.1.1.tar.gz"
+  sha256 "c1f7ed551b32ecb047bdbd3576d8555ee62a2fb6d0d4de1b91c4b7f0d19fb5c1"
   license "MIT"
   head "https://github.com/yun-sangho/lidwatch.git", branch: "main"
 
