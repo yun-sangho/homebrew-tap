@@ -1,0 +1,166 @@
+name: Build and publish bottles
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "Formula/**"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    # Skip if the triggering commit was from this workflow itself.
+    if: "!contains(github.event.head_commit.message, '[skip ci]')"
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - runner: macos-14
+            label: arm64_sonoma
+          - runner: macos-13
+            label: ventura
+
+    runs-on: ${{ matrix.runner }}
+
+    steps:
+      - name: Checkout tap
+        uses: actions/checkout@v4
+
+      - name: Set up Homebrew
+        run: |
+          echo "HOMEBREW_NO_AUTO_UPDATE=1" >> "$GITHUB_ENV"
+          echo "HOMEBREW_NO_INSTALL_FROM_API=1" >> "$GITHUB_ENV"
+          brew update-reset >/dev/null
+
+      - name: Register tap from workspace
+        run: |
+          # Register this checkout as the tap so `brew` uses the current
+          # Formula (including the version just bumped by Level 1).
+          TAP_DIR="$(brew --repository)/Library/Taps/yun-sangho/homebrew-tap"
+          rm -rf "$TAP_DIR"
+          mkdir -p "$(dirname "$TAP_DIR")"
+          ln -s "$GITHUB_WORKSPACE" "$TAP_DIR"
+          brew tap-info yun-sangho/tap
+
+      - name: Read formula version
+        id: ver
+        run: |
+          VERSION=$(grep -E '^\s*url' Formula/lidwatch.rb \
+            | sed -E 's|.*v([0-9A-Za-z.+-]+)\.tar\.gz.*|\1|')
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "formula version: $VERSION"
+
+      - name: Install --build-bottle
+        run: |
+          brew install --build-bottle --verbose yun-sangho/tap/lidwatch
+
+      - name: Build bottle
+        id: bottle
+        run: |
+          # Root URL: where the bottle tarball will live. We'll upload to
+          # the tap repo's release for this version.
+          ROOT_URL="https://github.com/${{ github.repository }}/releases/download/lidwatch-${{ steps.ver.outputs.version }}"
+          brew bottle \
+            --verbose \
+            --no-rebuild \
+            --json \
+            --root-url "$ROOT_URL" \
+            yun-sangho/tap/lidwatch
+          ls -la *.bottle*.tar.gz *.bottle.json
+
+      - name: Rename bottle file for the label
+        run: |
+          # `brew bottle` produces a file named like
+          # lidwatch--<version>.<label>.bottle.tar.gz. Homebrew expects
+          # the filename on the server to be lidwatch-<version>.<label>.bottle.tar.gz
+          # (single dash). Rename accordingly.
+          for f in *.bottle.tar.gz; do
+            newname="${f/--/-}"
+            [ "$f" != "$newname" ] && mv -v "$f" "$newname"
+          done
+          ls -la *.bottle*
+
+      - name: Upload bottle artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: bottle-${{ matrix.label }}
+          path: |
+            *.bottle.tar.gz
+            *.bottle.json
+          if-no-files-found: error
+
+  publish:
+    needs: build
+    runs-on: macos-14
+
+    steps:
+      - name: Checkout tap
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Download all bottle artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: bottles
+          merge-multiple: true
+
+      - name: List artifacts
+        run: |
+          ls -la bottles/
+          echo "---"
+          find bottles -type f
+
+      - name: Read formula version
+        id: ver
+        run: |
+          VERSION=$(grep -E '^\s*url' Formula/lidwatch.rb \
+            | sed -E 's|.*v([0-9A-Za-z.+-]+)\.tar\.gz.*|\1|')
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+
+      - name: Set up Homebrew
+        run: |
+          echo "HOMEBREW_NO_AUTO_UPDATE=1" >> "$GITHUB_ENV"
+          brew update-reset >/dev/null
+          TAP_DIR="$(brew --repository)/Library/Taps/yun-sangho/homebrew-tap"
+          rm -rf "$TAP_DIR"
+          mkdir -p "$(dirname "$TAP_DIR")"
+          ln -s "$GITHUB_WORKSPACE" "$TAP_DIR"
+
+      - name: Merge bottle blocks into Formula
+        run: |
+          cd bottles
+          brew bottle --merge --write --no-commit *.bottle.json
+          cd ..
+          echo "--- updated formula ---"
+          grep -A 20 '^\s*bottle do' Formula/lidwatch.rb || true
+          echo "--- full diff ---"
+          git --no-pager diff Formula/lidwatch.rb
+
+      - name: Create or update release and upload bottles
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          TAG="lidwatch-${{ steps.ver.outputs.version }}"
+          if ! gh release view "$TAG" >/dev/null 2>&1; then
+            gh release create "$TAG" \
+              --title "lidwatch ${{ steps.ver.outputs.version }} bottles" \
+              --notes "Prebuilt bottles for Homebrew."
+          fi
+          gh release upload "$TAG" bottles/*.bottle.tar.gz --clobber
+
+      - name: Commit formula with bottle block
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if git diff --quiet Formula/lidwatch.rb; then
+            echo "No Formula change — bottle block already present."
+            exit 0
+          fi
+          git add Formula/lidwatch.rb
+          git commit -m "lidwatch: add bottle block for ${{ steps.ver.outputs.version }} [skip ci]"
+          git push
