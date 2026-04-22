@@ -6,6 +6,11 @@ class Lidwatch < Formula
   license "MIT"
   head "https://github.com/yun-sangho/lidwatch.git", branch: "main"
 
+  bottle do
+    root_url "https://github.com/yun-sangho/homebrew-tap/releases/download/lidwatch-0.1.2"
+    sha256 cellar: :any_skip_relocation, arm64_sonoma: "0c309dc0c70a48a572bc1548fa95d06af63b9cdaa62b3cc3899d6264d8eaa8a2"
+  end
+
   depends_on xcode: ["14.0", :build]
   depends_on :macos
 
