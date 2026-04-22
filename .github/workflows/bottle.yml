@@ -21,8 +21,6 @@ jobs:
         include:
           - runner: macos-14
             label: arm64_sonoma
-          - runner: macos-13
-            label: ventura
 
     runs-on: ${{ matrix.runner }}
 
