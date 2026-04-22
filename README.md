@@ -9,10 +9,10 @@ Personal Homebrew tap.
 Event-driven helper that turns off your Mac's internal display on lid close — even when sleep is blocked (`pmset disablesleep`, `caffeinate`, Amphetamine, clamshell mode).
 
 ```bash
-brew install yun-sangho/tap/lidwatch && brew services start lidwatch && lidwatch enable
+brew install yun-sangho/tap/lidwatch && brew services start lidwatch
 ```
 
-See the [lidwatch README](https://github.com/yun-sangho/lidwatch#readme) for details.
+Enabled by default; lid close sleeps the display immediately. See the [lidwatch README](https://github.com/yun-sangho/lidwatch#readme) for usage (`lidwatch status`, `lidwatch disable`, etc.).
 
 ## How to use this tap
 
