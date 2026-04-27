@@ -7,22 +7,11 @@ class Dedrm < Formula
   sha256 "77e5625a3f9a68776a202c89996d7335a224988e0aa76db6213676dd73343279"
   license "GPL-3.0-or-later"
 
-  bottle do
-    root_url "https://github.com/yun-sangho/homebrew-tap/releases/download/dedrm-0.1.5"
-    sha256 cellar: :any, arm64_sonoma: "48f6c5d5ccbbb003ee8f866e06258bbce26972cdcddf3ccbd9fb4b010bbc4a5f"
-  end
-  depends_on "libxml2"
-  depends_on "libxslt"
   depends_on "python@3.12"
 
   resource "asn1crypto" do
     url "https://files.pythonhosted.org/packages/de/cf/d547feed25b5244fcb9392e288ff9fdc3280b10260362fc45d37a798a6ee/asn1crypto-1.5.1.tar.gz"
     sha256 "13ae38502be632115abf8a24cbe5f4da52e3b5231990aff31123c805306ccb9c"
-  end
-
-  resource "lxml" do
-    url "https://files.pythonhosted.org/packages/28/30/9abc9e34c657c33834eaf6cd02124c61bdf5944d802aa48e69be8da3585d/lxml-6.1.0.tar.gz"
-    sha256 "bfd57d8008c4965709a919c3e9a98f76c2c7cb319086b3d26858250620023b13"
   end
 
   resource "oscrypto" do
