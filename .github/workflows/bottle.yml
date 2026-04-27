@@ -1,10 +1,14 @@
-name: Build and publish bottles
+name: Build and publish bottles (lidwatch)
 
 on:
   push:
     branches: [main]
     paths:
-      - "Formula/**"
+      # This workflow is hardcoded to lidwatch (version grep, brew
+      # install target, release tag). Trigger only on lidwatch changes
+      # so updates to other formulas (e.g. dedrm) don't kick off a
+      # no-op lidwatch rebuild.
+      - "Formula/lidwatch.rb"
   workflow_dispatch:
 
 permissions:
