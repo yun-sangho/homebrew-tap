@@ -8,7 +8,7 @@ class Lidwatch < Formula
 
   bottle do
     root_url "https://github.com/yun-sangho/homebrew-tap/releases/download/lidwatch-0.1.3"
-    sha256 cellar: :any_skip_relocation, arm64_sonoma: "d86e81ac10c05d725ae9dc770bd6b9cb6a589a8fdd341c186f224c85a9945c8d"
+    sha256 cellar: :any_skip_relocation, arm64_sonoma: "c099c81ddbf90ddd9da7ed525f652532733c94f90caf2fd81cb5f81738130c4d"
   end
   depends_on xcode: ["14.0", :build]
   depends_on :macos
