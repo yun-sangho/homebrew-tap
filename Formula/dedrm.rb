@@ -3,8 +3,8 @@ class Dedrm < Formula
 
   desc "Remove Adobe Digital Editions (Adept) DRM from EPUB/PDF files"
   homepage "https://github.com/yun-sangho/ade-dedrm"
-  url "https://github.com/yun-sangho/ade-dedrm/archive/refs/tags/v0.1.3.tar.gz"
-  sha256 "c06fc6ce05605e10ce356cae0e64d9a168228dc0406668e0b0f1d79031dbec88"
+  url "https://github.com/yun-sangho/ade-dedrm/archive/refs/tags/v0.1.4.tar.gz"
+  sha256 "06ca50b9421ac394f53bf130607d9c76f2a076466db260ede6c5a98235afc2c2"
   license "GPL-3.0-or-later"
 
   depends_on "libxml2"
