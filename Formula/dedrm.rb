@@ -7,6 +7,11 @@ class Dedrm < Formula
   sha256 "06ca50b9421ac394f53bf130607d9c76f2a076466db260ede6c5a98235afc2c2"
   license "GPL-3.0-or-later"
 
+  bottle do
+    root_url "https://github.com/yun-sangho/homebrew-tap/releases/download/dedrm-0.1.4"
+    sha256 cellar: :any, arm64_sonoma: "2e7b1e57884dcb7a76cf0b9ce089af7cfa28d10ff7046fd8b79d9eb9fc80aed7"
+  end
+
   depends_on "libxml2"
   depends_on "libxslt"
   depends_on "python@3.12"
