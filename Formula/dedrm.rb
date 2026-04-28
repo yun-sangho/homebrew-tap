@@ -3,15 +3,9 @@ class Dedrm < Formula
 
   desc "Remove Adobe Digital Editions (Adept) DRM from EPUB/PDF files"
   homepage "https://github.com/yun-sangho/ade-dedrm"
-  url "https://github.com/yun-sangho/ade-dedrm/archive/refs/tags/v0.1.5.tar.gz"
-  sha256 "77e5625a3f9a68776a202c89996d7335a224988e0aa76db6213676dd73343279"
+  url "https://github.com/yun-sangho/ade-dedrm/archive/refs/tags/v0.1.6.tar.gz"
+  sha256 "bac1174d3fc3860fead01750156b7417d4d5308c62fbc9c1648a09fca5afaf07"
   license "GPL-3.0-or-later"
-
-  bottle do
-    root_url "https://github.com/yun-sangho/homebrew-tap/releases/download/dedrm-0.1.5"
-    sha256 cellar: :any_skip_relocation, arm64_sonoma: "d519a83c74b9d7d3a36567c27dfce6a1ace659ed9cdeac386c755541117c2db5"
-  end
-
   depends_on "python@3.12"
 
   resource "asn1crypto" do
