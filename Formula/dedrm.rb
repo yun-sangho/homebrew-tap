@@ -6,6 +6,11 @@ class Dedrm < Formula
   url "https://github.com/yun-sangho/ade-dedrm/archive/refs/tags/v0.1.6.tar.gz"
   sha256 "bac1174d3fc3860fead01750156b7417d4d5308c62fbc9c1648a09fca5afaf07"
   license "GPL-3.0-or-later"
+
+  bottle do
+    root_url "https://github.com/yun-sangho/homebrew-tap/releases/download/dedrm-0.1.6"
+    sha256 cellar: :any_skip_relocation, arm64_sonoma: "391532e7c56f6d2435887065f3b0d0ecdd5d81951fc5badb87ab94142682f49e"
+  end
   depends_on "python@3.12"
 
   resource "asn1crypto" do
