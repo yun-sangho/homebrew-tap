@@ -24,6 +24,16 @@ brew install yun-sangho/tap/dedrm
 
 Requires an authorized `~/.adept/activation.xml` (exported from Adobe Digital Editions). See the [ade-dedrm README](https://github.com/yun-sangho/ade-dedrm#readme) for usage (`dedrm <input> <output>`).
 
+### [hwt](https://github.com/yun-sangho/hwt)
+
+Git worktrees as Herdr spaces, with a ledger for running many coding agents in parallel on one repo (task list, inbox, merge queue). Prebuilt binaries for macOS and Linux.
+
+```bash
+brew install yun-sangho/tap/hwt && hwt doctor
+```
+
+Needs the Herdr app (`herdr-app`, `hc`). See the [hwt README](https://github.com/yun-sangho/hwt#readme).
+
 ## How to use this tap
 
 ```bash
