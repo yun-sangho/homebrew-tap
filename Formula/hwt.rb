@@ -33,10 +33,13 @@ class Hwt < Formula
   def caveats
     <<~EOS
       hwt needs the Herdr app (herdr-app and hc) running for `hwt new`.
-      Give your agents the hwt skill and session-start wiring, then check:
+      Check your setup:
 
-        hwt install all --lang en    # or ko; claude | codex | all
         hwt doctor
+
+      Optional shell wrapper (leaves you in the main checkout after `hwt rm`):
+
+        eval "$(hwt shell-init zsh)"    # in ~/.zshrc (or bash / fish)
     EOS
   end
 
