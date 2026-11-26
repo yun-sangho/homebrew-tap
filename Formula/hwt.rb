@@ -1,28 +1,28 @@
 class Hwt < Formula
   desc "Git worktrees as Herdr spaces, with a ledger for parallel coding agents"
   homepage "https://github.com/yun-sangho/hwt"
-  version "0.3.1"
+  version "0.3.2"
   license "MIT"
 
   on_macos do
     on_arm do
-      url "https://github.com/yun-sangho/hwt/releases/download/v0.3.1/hwt-darwin-arm64"
-      sha256 "7a72da9302272db1c3f079b9dbdd7153dbfd4a19f2a531c6b03b4a9fb31c83ee"
+      url "https://github.com/yun-sangho/hwt/releases/download/v0.3.2/hwt-darwin-arm64"
+      sha256 "64abfadf133e4598e41d5cc4a5e5d7d61c7d1f7c9ed710c632f6a546ab991c18"
     end
     on_intel do
-      url "https://github.com/yun-sangho/hwt/releases/download/v0.3.1/hwt-darwin-x64"
-      sha256 "2d3af95d357920e1e67a3ad1483ba41c637344d0038205782744c6322ed160b7"
+      url "https://github.com/yun-sangho/hwt/releases/download/v0.3.2/hwt-darwin-x64"
+      sha256 "80bb2c58809e0df30db1b8e3ca1cd9f6d75a51e530f2512d9bd2ce6bdc0a7415"
     end
   end
 
   on_linux do
     on_arm do
-      url "https://github.com/yun-sangho/hwt/releases/download/v0.3.1/hwt-linux-arm64"
-      sha256 "103f0eb144b7ca6cba1f4e7b20df34d13d5141b298fe4c4b02cfe3e2f21eebab"
+      url "https://github.com/yun-sangho/hwt/releases/download/v0.3.2/hwt-linux-arm64"
+      sha256 "4ecc81cc79c8305b96498161c47b3486c8d2159af192694825807c67fe33d3c7"
     end
     on_intel do
-      url "https://github.com/yun-sangho/hwt/releases/download/v0.3.1/hwt-linux-x64"
-      sha256 "ce16834ad851686f3c6ed0b203ffb4e4e082a423190214d140c62c8850d05bd5"
+      url "https://github.com/yun-sangho/hwt/releases/download/v0.3.2/hwt-linux-x64"
+      sha256 "87df5bfb5b5ff025b029e0aafae759bc3bc307faaff1dabe173473341833b364"
     end
   end
 
